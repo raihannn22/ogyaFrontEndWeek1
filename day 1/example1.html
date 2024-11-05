@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="syle.css" />
+  </head>
+  <body>
+    <!-- header  -->
+    <header>
+      <h1>Selamat Datang di Website Kami</h1>
+      <p>
+        ini adalah contoh paragraf p <br />
+        baris baru
+      </p>
+    </header>
+
+    <!-- Contoh Tabel -->
+    <section>
+      <h1>Contoh Table</h1>
+      <table border="1">
+        <tr>
+          <th>kolom 1</th>
+          <th>kolom 2</th>
+          <th>kolom 3</th>
+        </tr>
+        <tr>
+          <td>baris 1 kolom 1</td>
+          <td>baris 1 kolom 2</td>
+          <td>baris 1 kolom 3</td>
+        </tr>
+        <tr>
+          <td>baris 2 kolom 1</td>
+          <td>baris 2 kolom 2</td>
+          <td>baris 2 kolom 3</td>
+        </tr>
+        <tr>
+          <td>baris 3 kolom 1</td>
+          <td>baris 3 kolom 2</td>
+          <td>baris 3 kolom 3</td>
+        </tr>
+        <tr>
+          <td>baris 3 kolom 1</td>
+          <td>baris 3 kolom 2</td>
+          <td>baris 3 kolom 3</td>
+        </tr>
+      </table>
+    </section>
+
+    <br />
+
+    <!-- Contoh Tabel 2 -->
+    <section>
+      <table border="1" style="float: right">
+        <tr>
+          <th colspan="3">kolom 1</th>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td rowspan="2">baris 1 kolom 1</td>
+          <td>baris 1 kolom 2</td>
+          <td>baris 1 kolom 3</td>
+        </tr>
+        <tr>
+          <td>baris 2 kolom 2</td>
+          <td>baris 2 kolom 3</td>
+        </tr>
+        <tr>
+          <td>baris 3 kolom 1</td>
+          <td>baris 3 kolom 2</td>
+          <td>baris 3 kolom 3</td>
+        </tr>
+        <tr>
+          <td>baris 3 kolom 1</td>
+          <td>baris 3 kolom 2</td>
+          <td>baris 3 kolom 3</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- order list (ol) & unordered list (ul) -->
+    <section>
+      <h1>order list (ol) & unordered list (ul)</h1>
+      <ol>
+        <li>mangga</li>
+        <li>semangka</li>
+        <li>ayam</li>
+      </ol>
+
+      <ul>
+        <li>mangga</li>
+        <li>semangka</li>
+        <li>ayam</li>
+      </ul>
+    </section>
+
+    <!-- link -->
+    <a href="https://www.google.co.id/?hl=id" target="_blank"> Google</a>
+
+    <!-- form -->
+    <section>
+      <h1>form</h1>
+
+      <form action="">
+        Nama Depan:<input type="text" placeholder="nama mu" size="30" /> <br />
+        nomor hp: <input type="text" name="" id="" />
+      </form>
+    </section>
+
+    <!-- List -->
+    <section>
+      <h2>List</h2>
+      <form action="">
+        <input list="atribut" name="form" />
+
+        <datalist id="atribut">
+          <option value="value"></option>
+          <option value="readonly"></option>
+          <option value="disabled"></option>
+        </datalist>
+      </form>
+    </section>
+
+    <!-- min maxzzz -->
+    <h1>atribut pada form</h1>
+    <input type="date" name="day" max="2024-12-31" />
+    <input type="date" name="" id="" />
+    <br />
+
+    <!-- gambar -->
+    <br />
+    <h1>Gambar</h1>
+    <img src="satu.png" alt="" width="500px" />
+    <br />
+    <img
+      style="margin-left: auto; margin-right: auto; display: block"
+      src="https://dte.telkomuniversity.ac.id/wp-content/uploads/2024/09/image.png"
+      alt=""
+      width="500px"
+    />
+
+    <!-- iframe -->
+    <br />
+    <br />
+    <section>
+      <iframe src="example2.html" frameborder="1" width="500px"></iframe>
+    </section>
+
+    <!-- class -->
+    <div>
+      <p>Paragraph 1 in the div.</p>
+      <p>Paragraph 2 in the div.</p>
+      <section><p>Paragraph 3 in the div and section.</p></section>
+    </div>
+    <p>contoh p diluat div</p>
+    <p>contoh p diluat div</p>
+
+    <!-- hover -->
+    <h2>Styling a link depending on state</h2>
+    <p>
+      <b><a href="example3.html" target="_blank">This is a link</a></b>
+    </p>
+    <p>
+      <b>Note:</b> a:hover MUST come after a:link and a:visited in the CSS
+      definition in order to be effective.
+    </p>
+    <p>
+      <b>Note:</b> a:active MUST come after a:hover in the CSS definition in
+      order to be effective.
+    </p>
+  </body>
+</html>

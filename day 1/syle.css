@@ -1,0 +1,56 @@
+body {
+  overflow: auto;
+  background-color: rgb(186, 203, 217);
+  background-repeat: repeat;
+  background-size: 1000px;
+  margin: 2px;
+}
+
+header {
+  background-color: rgb(198, 69, 65, 0.6);
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  border: 2px solid black;
+}
+
+h1 {
+  color: black;
+  padding: 10px;
+  border: 10px;
+}
+
+div > p {
+  background-color: yellow;
+}
+
+/* unvisited link */
+a:link {
+  color: red;
+}
+/* visited link */
+a:visited {
+  color: green;
+}
+/* mouse over link */
+a:hover {
+  color: hotpink;
+}
+/* selected link */
+a:active {
+  color: blue;
+}
+
+div {
+  background-color: green;
+  color: white;
+  padding: 25px;
+  text-align: center;
+}
+div:hover {
+  background-color: blue;
+}
+
+p:first-child {
+  color: green;
+}
