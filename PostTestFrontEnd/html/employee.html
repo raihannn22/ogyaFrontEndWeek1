@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <h1>tabel</h1>
+    <table class="display" id="data">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nama</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Hire Date</th>
+          <th>Job Id</th>
+          <th>Salary</th>
+        </tr>
+      </thead>
+
+      <tbody id="data-emp"></tbody>
+    </table>
+
+    <script src="/PostTestFrontEnd/js/employee.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script>
+      new DataTable("#data", {});
+    </script>
+  </body>
+</html>
