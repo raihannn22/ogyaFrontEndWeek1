@@ -4,6 +4,8 @@ async function loginUser() {
     password: document.getElementById("password").value,
   };
 
+  console.log(loginData);
+
   const apiUrl = `http://localhost:8081/employee/login?email=${loginData.email}&password=${loginData.password}`;
   //   http://localhost:8081/employee/login?email=admin1%40yahoo.com&password=admin123
 
@@ -22,8 +24,8 @@ async function loginUser() {
     const data = await response.text();
     const token = data;
     localStorage.setItem("token", token);
-    // alert("Login berhasil!");
-    // // window.location.href = "index.html";
+    alert("Login berhasil!");
+    window.location.href = "employee.html";
   } else {
     alert("Login gagal, silakan coba lagi.");
   }
