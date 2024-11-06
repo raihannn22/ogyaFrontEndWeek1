@@ -29,7 +29,9 @@ function display(data) {
 }
 
 function search() {
-  const searchInput = document.getElementsByName("searching")[0].value;
+  const searchInput = document
+    .getElementsByName("searching")[0]
+    .value.toLowerCase();
   const filteredBarang = barang.filter((item) =>
     item.toLowerCase().includes(searchInput)
   );
