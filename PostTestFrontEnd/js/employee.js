@@ -45,7 +45,6 @@ fetchApi("http://localhost:8081/employee/get/all")
               <td>${emp.HIRE_DATE}</td>
               <td>${emp.JOB_ID}</td>
               <td>${emp.SALARY}</td>
-              <td></td>
         </tr>
       `;
 
