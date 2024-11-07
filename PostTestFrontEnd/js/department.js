@@ -21,10 +21,10 @@ function fetchApi(url, method = "GET", data = null) {
       }
       return response.json(); // Ubah respons menjadi JSON
     })
-    .catch((error) => {
-      console.error("Fetch error:", error);
-      throw error; // Lempar error ke tingkat yang lebih tinggi
-    });
+    // .catch((error) => {
+    //   console.error("Fetch error:", error);
+    //   throw error; // Lempar error ke tingkat yang lebih tinggi
+    // });
 }
 
 // Contoh penggunaan untuk berbagai metode
@@ -112,13 +112,7 @@ function updateDepartment() {
     .then(() => {
       alert("Department updated successfully!");
       window.location.reload() = `/PostTestFrontEnd/html/department.html`
-      document.getElementById("update-department-form").style.display = "none";
-      // Refresh data employee
-      fetchApi("http://localhost:8081/department/get/all")
-        .then((data) => displayEmployees(data.content))
-        .catch((error) => console.error(error));
     })
-    .catch((error) => console.error("Error updating employee:", error));
 }
 
 
@@ -139,14 +133,9 @@ function createDepartment() {
   )
     .then(() => {
       alert("Department created successfully!");
-    //   window.location.reload() = `/PostTestFrontEnd/html/department.html`
+      window.location.reload() = `/PostTestFrontEnd/html/department.html`
       document.getElementById("update-employee-form").style.display = "none";
-      // Refresh data employee
-      fetchApi("http://localhost:8081/department/get/all")
-        .then((data) => displayEmployees(data.content))
-        .catch((error) => console.error(error));
     })
-    .catch((error) => console.error("Error updating employee:", error));
 }
 
 
@@ -172,14 +161,6 @@ function deleteDepartment(departmentId) {
     console.log(`Department with ID ${departmentId} deleted successfully`);
     window.location.reload() = `/PostTestFrontEnd/html/department.html`
   })
-  .catch(error => {
-    console.error('Error deleting employee:', error);
-    // Tambahkan kembali baris ke tabel jika penghapusan gagal
-    const row = document.querySelector(`#data-emp tr[data-department-id="${departmentId}"]`);
-    if (row) {
-      row.style.display = '';  // Mengembalikan baris yang dihapus
-    }
-  });
 }
 
 

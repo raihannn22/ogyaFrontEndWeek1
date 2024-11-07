@@ -59,7 +59,7 @@
         <hr class="sidebar-divider my-0" />
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="dashboard.html">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a
@@ -87,7 +87,7 @@
           >
         </li>
         <!-- Nav Item - Tables -->
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="job.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Job</span></a
@@ -178,111 +178,108 @@
 
           <!-- Begin Page Content -->
           <div class="container-fluid">
-            <!-- Page Heading -->
-            <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-            <p class="mb-4">
-              DataTables is a third party plugin that is used to generate the
-              demo table below. For more information about DataTables, please
-              visit the
-              <a target="_blank" href="https://datatables.net"
-                >official DataTables documentation</a
-              >.
-            </p>
-
-            <!-- DataTales Example -->
-            <div class="card shadow mb-4">
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">
-                  Jobs Data
-                </h6>
-              </div>
-              <div class="card-body">
-                <a class="btn btn-info mb-3" onclick="showCreateForm()">
-                  Create Data
-                </a>
-                <div class="table-responsive">
-                  <table
-                    class="table table-bordered"
-                    id="dataTable"
-                    width="100%"
-                    cellspacing="0"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Job Id</th>
-                        <th>Job Title</th>
-                        <th>Max Salary</th>
-                        <th>Min Salary</th>
-                        <th colspan="2">action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="data-job"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <!-- Modal For Update and Create-->
             <div
-              class="modal fade"
-              id="jobModal"
-              tabindex="-1"
-              aria-labelledby="departmentModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="departmentModalLabel">
-                      Update Job
-                    </h5>
-                  </div>
-                  <div class="modal-body">
-                    <form id="departmentModalForm">
-                      <div class="mb-3">
-                        <label for="jobName" class="form-label"
-                          >Job Name</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="jobName"
-                          required
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="managerId" class="form-label"
-                          >Max Salary</label
-                        >
-                        <input
-                          type="number"
-                          class="form-control"
-                          id="maxSalary"
-                          required
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="locationId" class="form-label">Min Salary</label>
-                        <input
-                          type="number"
-                          class="form-control mb-3"
-                          id="minSalary"
-                          required
-                        />
-                      <button
-                        type="submit"
-                        class="btn btn-primary"
-                        id="SbmtBttn"
+            class="d-sm-flex align-items-center justify-content-between mb-4"
+          >
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div
+                        class="text-xs font-weight-bold text-primary text-uppercase mb-1"
                       >
-                        Submit
-                      </button>
-                    </form>
+                        Data Employee
+                      </div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        1
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- Modal For Create -->
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div
+                        class="text-xs font-weight-bold text-success text-uppercase mb-1"
+                      >
+                      Data Department
+                      </div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        1
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div
+                        class="text-xs font-weight-bold text-info text-uppercase mb-1"
+                      >
+                      Data Job
+                      </div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        1
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i
+                        class="fas fa-clipboard-list fa-2x text-gray-300"
+                      ></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div
+                        class="text-xs font-weight-bold text-warning text-uppercase mb-1"
+                      >
+                        Data Job History
+                      </div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        18
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <!-- /.container-fluid -->
         </div>
         <!-- End of Main Content -->
 

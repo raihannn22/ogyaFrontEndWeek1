@@ -67,10 +67,7 @@ showUpdateForm = (id) => {
   document.getElementById("minSalary").value = jobData.MIN_SALARY;
   // window.location.replace() = `/PostTestFrontEnd/html/registrasi_update.html?id=${id}`;
   var myModal = new bootstrap.Modal(
-    document.getElementById("jobModal"),
-    {
-      keyboard: false,
-    }
+    document.getElementById("jobModal")
   );
   const myButton = document.getElementById("SbmtBttn")
   myButton.addEventListener("click", () => {
@@ -112,12 +109,7 @@ function updateJob() {
     .then(() => {
       alert("Job updated successfully!");
       window.location.reload() = `/PostTestFrontEnd/html/job.html`
-      // Refresh data employee
-      fetchApi("http://localhost:8081/job/get/all")
-        .then((data) => displayEmployees(data.content))
-        .catch((error) => console.error(error));
     })
-    .catch((error) => console.error("Error updating employee:", error));
 }
 
 
@@ -139,12 +131,7 @@ function createJob() {
     .then(() => {
       alert("Job created successfully!");
       window.location.reload() = `/PostTestFrontEnd/html/job.html`
-    //   // Refresh data employee
-    //   fetchApi("http://localhost:8081/Job/get/all")
-    //     .then((data) => displayEmployees(data.content))
-    //     .catch((error) => console.error(error));
     })
-    .catch((error) => console.error("Error updating Job:", error));
 }
 
 
@@ -170,14 +157,6 @@ function deleteJob(jobId) {
     console.log(`Job with ID ${jobId} deleted successfully`);
     window.location.reload() = `/PostTestFrontEnd/html/job.html`
   })
-  .catch(error => {
-    console.error('Error deleting Job:', error);
-    // Tambahkan kembali baris ke tabel jika penghapusan gagal
-    const row = document.querySelector(`#data-emp tr[data-Job-id="${jobId}"]`);
-    if (row) {
-      row.style.display = '';  // Mengembalikan baris yang dihapus
-    }
-  });
 }
 
 

@@ -148,7 +148,7 @@
                           >Hire Date</label
                         >
                         <input
-                          type="datetime-local"
+                          type="datetime"
                           id="hireDate"
                           class="form-control form-control-lg"
                           required
@@ -156,12 +156,13 @@
                       </div>
 
                       <div data-mdb-input-init class="form-outline mb-4">
-                        <label class="form-label">Job Id</label>
-                        <input
+                        <label for="salary" class="form-label">Job Id</label>
+                        <br />
+                        <select
+                          class="form-select form-select-lg"
+                          aria-label="Default select example"
                           id="jobId"
-                          class="form-control form-control-lg"
-                          required
-                        />
+                        ></select>
                       </div>
                     </div>
                     <div class="col-lg-6">
@@ -190,12 +191,15 @@
                         />
                       </div>
                       <div data-mdb-input-init class="form-outline mb-4">
-                        <label class="form-label">Department Id</label>
-                        <input
-                          id="departmentId"
-                          class="form-control form-control-lg"
-                          required
-                        />
+                        <label for="salary" class="form-label"
+                        >Department</label
+                      >
+                      <select
+                        class="form-select form-select-lg"
+                        aria-label="Default select example"
+                        id="departmentId"
+                      >
+                      </select>
                       </div>
                       <div data-mdb-input-init class="form-outline mb-4">
                         <label class="form-label" for="typePasswordX-2"
@@ -215,7 +219,7 @@
                   <button
                     class="btn btn-primary btn-lg btn-block col-lg-2 offset-lg-10"
                     type="submit"
-                    onclick="registerUser()"
+                    onclick="registerEmployee()"
                     
                   >
                     Submit

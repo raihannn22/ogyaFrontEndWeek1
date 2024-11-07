@@ -27,8 +27,23 @@ function fetchApi(url, method = "GET", data = null) {
     });
 }
 
-// Contoh penggunaan untuk berbagai metode
-// GET
+function searchEmployee() {
+  const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+
+  // Filter ListEmployee berdasarkan searchTerm
+  const filteredEmployees = ListEmployee.filter((emp) => {
+    return (
+      emp.employee.FIRST_NAME.toLowerCase().includes(searchTerm) ||
+      emp.employee.LAST_NAME.toLowerCase().includes(searchTerm) ||
+      emp.employee.EMAIL.toLowerCase().includes(searchTerm) ||
+      emp.department.DEPARTMENT_NAME.toLowerCase().includes(searchTerm) ||
+      emp.job.JOB_TITLE.toLowerCase().includes(searchTerm)
+    );
+  });
+
+  // Tampilkan hasil pencarian di tabel
+  displayEmployees(filteredEmployees);
+}
 
 fetchApi("http://localhost:8081/employee/with-department", "GET")
   .then((data) => {
@@ -47,7 +62,9 @@ fetchApi("http://localhost:8081/employee/with-department", "GET")
               <td>${emp.employee.PHONE_NUMBER}</td>
               <td>${emp.employee.HIRE_DATE}</td>
               <td>${emp.department.DEPARTMENT_NAME}</td>
+              <td>${emp.job.JOB_TITLE}</td>
               <td>${emp.employee.SALARY}</td>
+              <td>${emp.employee.COMMISSION_PCT}</td>
               <td> <a href='#' class="btn btn-danger" onclick='deleteEmployee(${emp.employee.employeeId})'> hapus</a> </td>
               <td> <a href='#' class="btn btn-info" onclick='showUpdateForm(${emp.employee.employeeId})'> edit</a> </td>
         </tr>
@@ -55,7 +72,28 @@ fetchApi("http://localhost:8081/employee/with-department", "GET")
     });
   })
  
-
+  function displayEmployees(employeeList) {
+    const dataEmployee = document.getElementById("data-emp");
+    dataEmployee.innerHTML = ""; // Kosongkan tabel
+  
+    employeeList.forEach((emp) => {
+      dataEmployee.innerHTML += `
+        <tr>
+          <td>${emp.employee.employeeId}</td>
+          <td>${emp.employee.FIRST_NAME} ${emp.employee.LAST_NAME}</td>
+          <td>${emp.employee.EMAIL}</td>
+          <td>${emp.employee.PHONE_NUMBER}</td>
+          <td>${emp.employee.HIRE_DATE}</td>
+          <td>${emp.department.DEPARTMENT_NAME}</td>
+          <td>${emp.job.JOB_TITLE}</td>
+          <td>${emp.employee.SALARY}</td>
+          <td>${emp.employee.COMMISSION_PCT}</td>
+          <td> <a href='#' class="btn btn-danger" onclick='deleteEmployee(${emp.employee.employeeId})'> hapus</a> </td>
+          <td> <a href='#' class="btn btn-info" onclick='showUpdateForm(${emp.employee.employeeId})'> edit</a> </td>
+        </tr>
+      `;
+    });
+  }
 
 let currentEmployeeId = null;
 
@@ -140,13 +178,7 @@ function updateEmployee() {
     .then(() => {
       alert("Employee updated successfully!");
       window.location.reload() = `/PostTestFrontEnd/html/employees.html`
-      document.getElementById("update-employee-form").style.display = "none";
-      // Refresh data employee
-      fetchApi("http://localhost:8081/employee/get/all")
-        .then((data) => displayEmployees(data.content))
-        .catch((error) => console.error(error));
     })
-    .catch((error) => console.error("Error updating employee:", error));
 }
 
 
@@ -180,22 +212,9 @@ function createEmployee() {
       window.location.reload() = `/PostTestFrontEnd/html/employees.html`
       document.getElementById("update-employee-form").style.display = "none";
       // Refresh data employee
-      fetchApi("http://localhost:8081/employee/get/all")
-        .then((data) => displayEmployees(data.content))
-        .catch((error) => console.error(error));
     })
-    .catch((error) => console.error("Error updating employee:", error));
 }
 
-// function deteleEmployee(id) {
-//   console.log(id);
-//   fetchApi(`http://localhost:8081/employee/delete/${id}`, "DELETE")
-//     .then(() => {
-//       alert("Employee deleted successfully!");
-//       window.location.reload() = `/PostTestFrontEnd/html/employees.html`
-//     })
-//     .catch((error) => console.error("Error deleting employee:", error));
-// }
 
 // Fungsi untuk menghapus data employee berdasarkan employeeId
 function deleteEmployee(employeeId) {
@@ -219,14 +238,6 @@ function deleteEmployee(employeeId) {
     console.log(`Employee with ID ${employeeId} deleted successfully`);
     window.location.reload() = `/PostTestFrontEnd/html/employees.html`
   })
-  .catch(error => {
-    console.error('Error deleting employee:', error);
-    // Tambahkan kembali baris ke tabel jika penghapusan gagal
-    const row = document.querySelector(`#data-emp tr[data-employee-id="${employeeId}"]`);
-    if (row) {
-      row.style.display = '';  // Mengembalikan baris yang dihapus
-    }
-  });
 }
 
 fetchApi("http://localhost:8081/department/get/all", "GET")
@@ -237,7 +248,6 @@ fetchApi("http://localhost:8081/department/get/all", "GET")
     listDepartment = data.content;
 
     data.content.forEach((dept) => {
-      console.log(dept);
       dataDepartment.innerHTML += `
       <option value="${dept.departmentId}">${dept.DEPARTMENT_NAME}</option>
       `;
@@ -253,10 +263,13 @@ fetchApi("http://localhost:8081/department/get/all", "GET")
     listJob = data.content;
 
     data.content.forEach((job) => {
-      console.log(job);
       dataJob.innerHTML += `
       <option value="${job.jobId}">${job.JOB_TITLE}</option>
       `;
     });
   })
   .catch((error) => console.error(error));
+
+
+
+
