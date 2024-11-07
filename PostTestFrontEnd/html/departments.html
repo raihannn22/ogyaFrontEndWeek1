@@ -73,14 +73,14 @@
         <!-- Nav Item - Pages Collapse Menu -->
 
         <!-- Nav Item - Charts -->
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="employees.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Employee</span></a
           >
         </li>
         <!-- Nav Item - Tables -->
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="departments.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Department</span></a
@@ -197,21 +197,9 @@
                 </h6>
               </div>
               <div class="card-body">
-                <div class="row">
-                  <div class="col-6">
-                    <a class="btn btn-info mb-3" onclick="showCreateForm()">
-                      Create Data
-                    </a>
-                  </div>
-                  <div class="col-4 offset-2">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Search"
-                      id="search"
-                    />
-                  </div>
-                </div>
+                <a class="btn btn-info mb-3" onclick="showCreateForm()">
+                  Create Data
+                </a>
                 <div class="table-responsive">
                   <table
                     class="table table-bordered"
@@ -221,17 +209,14 @@
                   >
                     <thead>
                       <tr>
-                        <th>Id</th>
-                        <th>Nama</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Hire Date</th>
+                        <th>Department Id</th>
                         <th>Department Name</th>
-                        <th>Salary</th>
+                        <th>Manager Id</th>
+                        <th>Location Id</th>
                         <th colspan="2">action</th>
                       </tr>
                     </thead>
-                    <tbody id="data-emp"></tbody>
+                    <tbody id="data-dept"></tbody>
                   </table>
                 </div>
               </div>
@@ -239,100 +224,33 @@
             <!-- Modal For Update and Create-->
             <div
               class="modal fade"
-              id="updateEmployeeModal"
+              id="departmentModal"
               tabindex="-1"
-              aria-labelledby="updateEmployeeModalLabel"
+              aria-labelledby="departmentModalLabel"
               aria-hidden="true"
             >
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="updateEmployeeModalLabel">
-                      Update Employee
+                    <h5 class="modal-title" id="departmentModalLabel">
+                      Update Department
                     </h5>
                   </div>
                   <div class="modal-body">
-                    <form id="updateEmployeeForm">
+                    <form id="departmentModalForm">
                       <div class="mb-3">
-                        <label for="firstName" class="form-label"
-                          >First Name</label
+                        <label for="departmentName" class="form-label"
+                          >Department Name</label
                         >
                         <input
                           type="text"
                           class="form-control"
-                          id="firstName"
+                          id="departmentName"
                           required
                         />
                       </div>
                       <div class="mb-3">
-                        <label for="lastName" class="form-label"
-                          >Last Name</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="lastName"
-                          required
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input
-                          type="email"
-                          class="form-control"
-                          id="email"
-                          required
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="phone" class="form-label">Phone</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="phoneNumber"
-                          required
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="phone" class="form-label">Hire Date</label>
-                        <input
-                          type="datetime-local"
-                          class="form-control"
-                          id="hireDate"
-                          required
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="salary" class="form-label">Job Id</label>
-                        <br />
-                        <select
-                          class="form-control"
-                          aria-label="Default select example"
-                          id="jobId"
-                        ></select>
-                      </div>
-                      <div class="mb-3">
-                        <label for="salary" class="form-label">Salary</label>
-                        <input
-                          type="number"
-                          class="form-control"
-                          id="salary"
-                          required
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="salary" class="form-label"
-                          >Commicion Pct</label
-                        >
-                        <input
-                          type="number"
-                          class="form-control"
-                          id="commissionPct"
-                          required
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="salary" class="form-label"
+                        <label for="managerId" class="form-label"
                           >Manager Id</label
                         >
                         <input
@@ -343,30 +261,13 @@
                         />
                       </div>
                       <div class="mb-3">
-                        <label for="salary" class="form-label"
-                          >Department</label
-                        >
-                        <br />
-                        <select
-                          class="form-control"
-                          aria-label="Default select example"
-                          id="departmentId"
-                        >
-                          <!-- <option selected>Open this select menu</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option> -->
-                        </select>
-                      </div>
-                      <div class="mb-3">
-                        <label for="salary" class="form-label">password</label>
+                        <label for="locationId" class="form-label">Location Id</label>
                         <input
-                          type="password"
-                          class="form-control"
-                          id="password"
+                          type="number"
+                          class="form-control mb-3"
+                          id="locationId"
                           required
                         />
-                      </div>
                       <button
                         type="submit"
                         class="btn btn-primary"
@@ -461,6 +362,6 @@
     <script src="/PostTestFrontEnd/ItemTemplate/js/demo/datatables-demo.js"></script>
 
     <!-- script api -->
-    <script src="/PostTestFrontEnd/js/employee.js"></script>
+    <script src="/PostTestFrontEnd/js/department.js"></script>
   </body>
 </html>
