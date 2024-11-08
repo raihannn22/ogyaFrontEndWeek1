@@ -45,32 +45,36 @@ function searchEmployee() {
   displayEmployees(filteredEmployees);
 }
 
-fetchApi("http://localhost:8081/employee/with-department", "GET")
-  .then((data) => {
-    const dataEmployee = document.getElementById("data-emp");
-    dataEmployee.innerHTML = "";
 
-    ListEmployee = data.content;
-
-    data.content.forEach((emp) => {
-      console.log(emp);
-      dataEmployee.innerHTML += `
-      <tr>
-              <td>${emp.employee.employeeId}</td>
-              <td>${emp.employee.FIRST_NAME} ${emp.employee.LAST_NAME}</td>
-              <td>${emp.employee.EMAIL}</td>
-              <td>${emp.employee.PHONE_NUMBER}</td>
-              <td>${emp.employee.HIRE_DATE}</td>
-              <td>${emp.department.DEPARTMENT_NAME}</td>
-              <td>${emp.job.JOB_TITLE}</td>
-              <td>${emp.employee.SALARY}</td>
-              <td>${emp.employee.COMMISSION_PCT}</td>
-              <td> <a href='#' class="btn btn-danger" onclick='deleteEmployee(${emp.employee.employeeId})'> hapus</a> </td>
-              <td> <a href='#' class="btn btn-info" onclick='showUpdateForm(${emp.employee.employeeId})'> edit</a> </td>
-        </tr>
-      `;
-    });
-  })
+//  async function getEmployee() {
+//    fetchApi("http://localhost:8081/employee/with-department", "GET")
+//    .then((data) => {
+//      // const dataEmployee = document.getElementById("data-emp");
+//      // dataEmployee.innerHTML = "";
+ 
+//      console.log(data.content);
+//      ListEmployee = data.content;
+ 
+//      // data.content.forEach((emp) => {
+//      //   console.log(emp);
+//      //   dataEmployee.innerHTML += `
+//      //   <tr>
+//      //           <td>${emp.employee.employeeId}</td>
+//      //           <td>${emp.employee.FIRST_NAME} ${emp.employee.LAST_NAME}</td>
+//      //           <td>${emp.employee.EMAIL}</td>
+//      //           <td>${emp.employee.PHONE_NUMBER}</td>
+//      //           <td>${emp.employee.HIRE_DATE}</td>
+//      //           <td>${emp.department.DEPARTMENT_NAME}</td>
+//      //           <td>${emp.job.JOB_TITLE}</td>
+//      //           <td>${emp.employee.SALARY}</td>
+//      //           <td>${emp.employee.COMMISSION_PCT}</td>
+//      //           <td> <a href='#' class="btn btn-danger" onclick='deleteEmployee(${emp.employee.employeeId})'> hapus</a> </td>
+//      //           <td> <a href='#' class="btn btn-info" onclick='showUpdateForm(${emp.employee.employeeId})'> edit</a> </td>
+//      //     </tr>
+//      //   `;
+//      // });
+//    })
+//  }
  
   function displayEmployees(employeeList) {
     const dataEmployee = document.getElementById("data-emp");
@@ -95,7 +99,26 @@ fetchApi("http://localhost:8081/employee/with-department", "GET")
     });
   }
 
-let currentEmployeeId = null;
+  // async function loadPage() {
+  //   await getEmployee();
+  //   console.log(ListEmployee);  // Sekarang ListEmployee akan terisi dengan data setelah await getEmployee()
+  //   displayEmployees(ListEmployee);
+  // }
+  
+  async function getEmployee() {
+    const data = await fetchApi("http://localhost:8081/employee/with-department", "GET");
+    console.log(data.content);
+    ListEmployee = data.content;  // Memperbarui ListEmployee setelah data diterima
+  }
+
+// async  function loadPage() {
+//   await getEmployee();
+
+//   console.log(ListEmployee);
+//   displayEmployees(ListEmployee);
+//   }
+
+// let currentEmployeeId = null;
 
 showUpdateForm = (id) => {
   currentEmployeeId = id;
@@ -236,6 +259,7 @@ function deleteEmployee(employeeId) {
       throw new Error('Failed to delete employee');
     }
     console.log(`Employee with ID ${employeeId} deleted successfully`);
+
     window.location.reload() = `/PostTestFrontEnd/html/employees.html`
   })
 }
@@ -270,6 +294,56 @@ fetchApi("http://localhost:8081/department/get/all", "GET")
   })
   .catch((error) => console.error(error));
 
+  function logout() {
+    // Menghapus token dari localStorage
+    localStorage.removeItem('token');
 
+    // Menampilkan pesan dan mengarahkan ke halaman login
+    window.location.href = 'login.html'; // Ganti dengan halaman login Anda
+  }
 
+  let currentPage = 1;
+const itemsPerPage = 10;
+
+async function loadPage(pageNumber, list) {
+  await getEmployee();
+  currentPage = pageNumber;
+  const startIndex = (pageNumber - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const employeesForPage = list.slice(startIndex, endIndex);
+
+  displayEmployees(employeesForPage);
+  updatePaginationControls(pageNumber, list.length);
+}
+
+function updatePaginationControls(pageNumber, totalItems) {
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  document.getElementById("prevButton").disabled = pageNumber === 1;
+  document.getElementById("pageCount").textContent = pageNumber;
+  document.getElementById("nextButton").disabled = pageNumber === totalPages;
+}
+
+async function initializeEmployees() {
+  try {
+    await loadEmployee();
+
+    loadPage(1, employees);
+
+    document
+      .getElementById("prevButton")
+      .addEventListener("click", () =>
+        loadPage(currentPage - 1, filteredEmployees)
+      );
+    document
+      .getElementById("nextButton")
+      .addEventListener("click", () =>
+        loadPage(currentPage + 1, filteredEmployees)
+      );
+  } catch (error) {
+    console.error("Error fetching employees:", error);
+  }
+}
+
+window.addEventListener("load", initializeEmployees);
 

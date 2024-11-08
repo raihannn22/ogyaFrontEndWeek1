@@ -54,7 +54,6 @@ function fetchApi(url, method = "GET", data = null) {
     });
 }
 
-
 function registerEmployee() {
   // Data yang akan diperbarui
   const createdEmployee = {
@@ -74,11 +73,7 @@ function registerEmployee() {
   };
 
   // Lakukan update berdasarkan currentEmployeeId
-  fetchApi(
-    `http://localhost:8081/employee/create`,
-    "POST",
-    createdEmployee
-  )
+  fetchApi(`http://localhost:8081/employee/create`, "POST", createdEmployee)
     .then(() => {
       alert("Registrasi berhasil!");
       window.location.href = "login.html";
@@ -87,23 +82,20 @@ function registerEmployee() {
     .catch((error) => console.error("Error updating employee:", error));
 }
 
+fetchApi("http://localhost:8081/department/get/all", "GET").then((data) => {
+  const dataDepartment = document.getElementById("departmentId");
+  dataDepartment.innerHTML = "";
 
+  listDepartment = data.content;
 
-fetchApi("http://localhost:8081/department/get/all", "GET")
-  .then((data) => {
-    const dataDepartment = document.getElementById("departmentId");
-    dataDepartment.innerHTML = "";
-
-    listDepartment = data.content;
-
-    data.content.forEach((dept) => {
-      dataDepartment.innerHTML += `
+  data.content.forEach((dept) => {
+    dataDepartment.innerHTML += `
       <option value="${dept.departmentId}">${dept.DEPARTMENT_NAME}</option>
       `;
-    });
-  })
+  });
+});
 
-  fetchApi("http://localhost:8081/job/get/all", "GET")
+fetchApi("http://localhost:8081/job/get/all", "GET")
   .then((data) => {
     const dataJob = document.getElementById("jobId");
     dataJob.innerHTML = "";
@@ -117,3 +109,7 @@ fetchApi("http://localhost:8081/department/get/all", "GET")
     });
   })
   .catch((error) => console.error(error));
+
+document.getElementById("hireDate").max = new Date()
+  .toISOString()
+  .split("T")[0];

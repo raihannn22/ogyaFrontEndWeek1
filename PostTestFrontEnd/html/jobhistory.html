@@ -87,14 +87,14 @@
           >
         </li>
         <!-- Nav Item - Tables -->
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="job.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Job</span></a
           >
         </li>
         <!-- Nav Item - Tables -->
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="jobhistory.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Job History</span></a
@@ -197,26 +197,36 @@
                 </h6>
               </div>
               <div class="card-body">
-                <a class="btn btn-info mb-3" onclick="showCreateForm()">
-                  Create Data
-                </a>
+                <div class="row">
+                  <div class="col-4 offset-8 mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Search"
+                      id="searchInput"
+                      onkeyup="searchJh()"
+                    />
+                  </div>
+                </div>
                 <div class="table-responsive">
                   <table
                     class="table table-bordered"
-                    id="dataTable"
+                    id="    "
                     width="100%"
                     cellspacing="0"
                   >
                     <thead>
                       <tr>
-                        <th>Job Id</th>
-                        <th>Job Title</th>
-                        <th>Max Salary</th>
-                        <th>Min Salary</th>
-                        <th colspan="2">action</th>
+                        <th>Id Job History</th>
+                        <th>Change Date</th>
+                        <th>Employee Id</th>
+                        <th>Employee name</th>
+                        <th>Job Id New</th>
+                        <th>Job Id Old</th>
+                        <th>action</th>
                       </tr>
                     </thead>
-                    <tbody id="data-job"></tbody>
+                    <tbody id="data-jh"></tbody>
                   </table>
                 </div>
               </div>
@@ -239,33 +249,44 @@
                   <div class="modal-body">
                     <form id="departmentModalForm">
                       <div class="mb-3">
-                        <label for="jobName" class="form-label"
-                          >Job Name</label
+                        <label for="changedDate" class="form-label"
+                          >change Date</label
                         >
                         <input
                           type="text"
                           class="form-control"
-                          id="jobName"
+                          id="changedDate"
                           required
                         />
                       </div>
                       <div class="mb-3">
-                        <label for="managerId" class="form-label"
-                          >Max Salary</label
+                        <label for="employeeId" class="form-label"
+                          >Employee Id</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="employeeId"
+                          required
+                        />
+                      </div>
+                      <div class="mb-3">
+                        <label for="jobIdNew" class="form-label"
+                          >Job Id New</label
                         >
                         <input
                           type="number"
                           class="form-control"
-                          id="maxSalary"
+                          id="jobIdNew"
                           required
                         />
                       </div>
                       <div class="mb-3">
-                        <label for="locationId" class="form-label">Min Salary</label>
+                        <label for="locationId" class="form-label">job Id Old</label>
                         <input
                           type="number"
                           class="form-control mb-3"
-                          id="minSalary"
+                          id="jobIdOld"
                           required
                         />
                       <button
@@ -362,6 +383,6 @@
     <script src="/PostTestFrontEnd/ItemTemplate/js/demo/datatables-demo.js"></script>
 
     <!-- script api -->
-    <script src="/PostTestFrontEnd/js/job.js"></script>
+    <script src="/PostTestFrontEnd/js/jobhistory.js"></script>
   </body>
 </html>

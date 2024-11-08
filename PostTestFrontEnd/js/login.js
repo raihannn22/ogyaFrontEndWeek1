@@ -25,7 +25,7 @@ async function loginUser() {
     const token = data;
     localStorage.setItem("token", token);
     alert("Login berhasil!");
-    window.location.href = "employees.html";
+    window.location.href = "dashboard.html";
   } else {
     alert("Login gagal, silakan coba lagi.");
   }

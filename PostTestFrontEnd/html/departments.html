@@ -95,7 +95,7 @@
         </li>
         <!-- Nav Item - Tables -->
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="jobhistory.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Job History</span></a
           >
@@ -197,9 +197,22 @@
                 </h6>
               </div>
               <div class="card-body">
-                <a class="btn btn-info mb-3" onclick="showCreateForm()">
-                  Create Data
-                </a>
+                <div class="row">
+                  <div class="col-6">
+                    <a class="btn btn-info mb-3" onclick="showCreateForm()">
+                      Create Data
+                    </a>
+                  </div>
+                  <div class="col-4 offset-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Search"
+                      id="searchInput"
+                      onkeyup="searchEmployee()"
+                    />
+                  </div>
+                </div>
                 <div class="table-responsive">
                   <table
                     class="table table-bordered"

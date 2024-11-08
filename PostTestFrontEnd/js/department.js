@@ -21,10 +21,20 @@ function fetchApi(url, method = "GET", data = null) {
       }
       return response.json(); // Ubah respons menjadi JSON
     })
-    // .catch((error) => {
-    //   console.error("Fetch error:", error);
-    //   throw error; // Lempar error ke tingkat yang lebih tinggi
-    // });
+}
+
+function searchEmployee() {
+  const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+
+  // Filter ListEmployee berdasarkan searchTerm
+  const FilteredDepartment = listDepartment.filter((dept) => {
+    return (
+      dept.DEPARTMENT_NAME.toLowerCase().includes(searchTerm) 
+    );
+  });
+
+  // Tampilkan hasil pencarian di tabel
+  displayEmployees(FilteredDepartment);
 }
 
 // Contoh penggunaan untuk berbagai metode
@@ -51,6 +61,24 @@ fetchApi("http://localhost:8081/department/get/all", "GET")
       `;
     });
   })
+
+  function displayEmployees(employeeList) {
+    const dataDepartment = document.getElementById("data-dept");
+    dataDepartment.innerHTML = ""; // Kosongkan tabel
+  
+    employeeList.forEach((dept) => {
+      dataDepartment.innerHTML += `
+        <tr>
+              <td>${dept.departmentId}</td>
+              <td>${dept.DEPARTMENT_NAME}</td>
+              <td>${dept.MANAGER_ID}</td>
+              <td>${dept.LOCATION_ID}</td>
+              <td> <a href='#' class="btn btn-danger" onclick='deleteDepartment(${dept.departmentId})'> hapus</a> </td>
+              <td> <a href='#' class="btn btn-info" onclick='showUpdateForm(${dept.departmentId})'> edit</a> </td>
+        </tr>
+      `;
+    });
+  }
  
 
 
