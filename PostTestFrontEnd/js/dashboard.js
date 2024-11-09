@@ -25,13 +25,7 @@ function fetchApi(url, method = "GET", data = null) {
     });
 }
 
-fetchApi("http://localhost:8081/job/get/count", "GET").then((data) => {
-  const dataJob = document.getElementById("data-job");
-  dataJob.innerHTML = `${data.content.total_job}`;
 
-  console.log(data.content);
-  listJob = data.content;
-});
 
 fetchApi("http://localhost:8081/job/get/count", "GET").then((data) => {
   const dataJob = document.getElementById("data-job");

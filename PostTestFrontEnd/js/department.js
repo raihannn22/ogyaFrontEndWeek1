@@ -1,4 +1,5 @@
 var listDepartment = [];
+var FilteredListDepartment = [];
 
 function fetchApi(url, method = "GET", data = null) {
   const token = localStorage.getItem("token");
@@ -34,52 +35,38 @@ function searchEmployee() {
   });
 
   // Tampilkan hasil pencarian di tabel
-  displayEmployees(FilteredDepartment);
+  loadPage(1, FilteredDepartment);
 }
 
 // Contoh penggunaan untuk berbagai metode
 // GET
 
-fetchApi("http://localhost:8081/department/get/all", "GET")
-  .then((data) => {
-    const dataDepartment = document.getElementById("data-dept");
-    dataDepartment.innerHTML = "";
+async function getDepartment() {
+  const data = await fetchApi("http://localhost:8081/department/get/all", "GET");
+  listDepartment = data.content;
+  FilteredListDepartment = listDepartment;
+}
 
-    listDepartment = data.content;
 
-    data.content.forEach((dept) => {
-      console.log(dept);
-      dataDepartment.innerHTML += `
-      <tr>
-              <td>${dept.departmentId}</td>
-              <td>${dept.DEPARTMENT_NAME}</td>
-              <td>${dept.MANAGER_ID}</td>
-              <td>${dept.LOCATION_ID}</td>
-              <td> <a href='#' class="btn btn-danger" onclick='deleteDepartment(${dept.departmentId})'> hapus</a> </td>
-              <td> <a href='#' class="btn btn-info" onclick='showUpdateForm(${dept.departmentId})'> edit</a> </td>
-        </tr>
-      `;
-    });
-  })
+function displayDepartments (departmentlist) {
+  const dataDepartment = document.getElementById("data-dept");
+  dataDepartment.innerHTML = "";
 
-  function displayEmployees(employeeList) {
-    const dataDepartment = document.getElementById("data-dept");
-    dataDepartment.innerHTML = ""; // Kosongkan tabel
-  
-    employeeList.forEach((dept) => {
-      dataDepartment.innerHTML += `
-        <tr>
-              <td>${dept.departmentId}</td>
-              <td>${dept.DEPARTMENT_NAME}</td>
-              <td>${dept.MANAGER_ID}</td>
-              <td>${dept.LOCATION_ID}</td>
-              <td> <a href='#' class="btn btn-danger" onclick='deleteDepartment(${dept.departmentId})'> hapus</a> </td>
-              <td> <a href='#' class="btn btn-info" onclick='showUpdateForm(${dept.departmentId})'> edit</a> </td>
-        </tr>
-      `;
-    });
-  }
- 
+  departmentlist.forEach((dept) => {
+    console.log(dept);
+    dataDepartment.innerHTML += `
+    <tr>
+            <td>${dept.departmentId}</td>
+            <td>${dept.DEPARTMENT_NAME}</td>
+            <td>${dept.MANAGER_ID}</td>
+            <td>${dept.LOCATION_ID}</td>
+            <td> <a href='#' class="btn btn-danger" onclick='deleteDepartment(${dept.departmentId})'> hapus</a> </td>
+            <td> <a href='#' class="btn btn-info" onclick='showUpdateForm(${dept.departmentId})'> edit</a> </td>
+      </tr>
+    `;
+  });
+}
+
 
 
 let currentDepartmentId = null;
@@ -191,4 +178,55 @@ function deleteDepartment(departmentId) {
   })
 }
 
+function logout() {
+  // Menghapus token dari localStorage
+  localStorage.removeItem('token');
 
+  // Menampilkan pesan dan mengarahkan ke halaman login
+  window.location.href = 'login.html'; // Ganti dengan halaman login Anda
+}
+
+
+let currentPage = 1;
+const itemsPerPage = 2;
+
+async  function loadPage(pageNumber, list) {
+  currentPage = pageNumber;
+  const startIndex = (pageNumber - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const employeesForPage = list.slice(startIndex, endIndex);
+
+  displayDepartments(employeesForPage);
+  updatePaginationControls(pageNumber, list.length);
+}
+function updatePaginationControls(pageNumber, totalItems) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+  
+    document.getElementById("prevButton").disabled = pageNumber === 1;
+    document.getElementById("pageCount").textContent = pageNumber;
+    document.getElementById("nextButton").disabled = pageNumber === totalPages;
+}
+
+async function initializeDepartment() {
+  try {
+    await getDepartment();
+    loadPage(1, listDepartment);
+
+    document
+      .getElementById("prevButton")
+      .addEventListener("click", () =>
+        loadPage(currentPage - 1, listDepartment)
+      );
+    document
+      .getElementById("nextButton")
+      .addEventListener("click", () =>
+        loadPage(currentPage + 1, listDepartment)
+      );
+  } catch (error) {
+    console.error("Error fetching employees:", error);
+  }
+}
+
+window.addEventListener("load", () => {
+  initializeDepartment();
+});

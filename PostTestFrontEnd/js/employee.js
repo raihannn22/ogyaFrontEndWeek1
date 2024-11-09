@@ -1,4 +1,5 @@
 var ListEmployee = [];
+var filteredListEmployee = [];
 
 function fetchApi(url, method = "GET", data = null) {
   const token = localStorage.getItem("token");
@@ -31,7 +32,7 @@ function searchEmployee() {
   const searchTerm = document.getElementById("searchInput").value.toLowerCase();
 
   // Filter ListEmployee berdasarkan searchTerm
-  const filteredEmployees = ListEmployee.filter((emp) => {
+  const filteredEmployees = filteredListEmployee  .filter((emp) => {
     return (
       emp.employee.FIRST_NAME.toLowerCase().includes(searchTerm) ||
       emp.employee.LAST_NAME.toLowerCase().includes(searchTerm) ||
@@ -42,40 +43,10 @@ function searchEmployee() {
   });
 
   // Tampilkan hasil pencarian di tabel
-  displayEmployees(filteredEmployees);
+  loadPage(1, filteredEmployees);
 }
 
 
-//  async function getEmployee() {
-//    fetchApi("http://localhost:8081/employee/with-department", "GET")
-//    .then((data) => {
-//      // const dataEmployee = document.getElementById("data-emp");
-//      // dataEmployee.innerHTML = "";
- 
-//      console.log(data.content);
-//      ListEmployee = data.content;
- 
-//      // data.content.forEach((emp) => {
-//      //   console.log(emp);
-//      //   dataEmployee.innerHTML += `
-//      //   <tr>
-//      //           <td>${emp.employee.employeeId}</td>
-//      //           <td>${emp.employee.FIRST_NAME} ${emp.employee.LAST_NAME}</td>
-//      //           <td>${emp.employee.EMAIL}</td>
-//      //           <td>${emp.employee.PHONE_NUMBER}</td>
-//      //           <td>${emp.employee.HIRE_DATE}</td>
-//      //           <td>${emp.department.DEPARTMENT_NAME}</td>
-//      //           <td>${emp.job.JOB_TITLE}</td>
-//      //           <td>${emp.employee.SALARY}</td>
-//      //           <td>${emp.employee.COMMISSION_PCT}</td>
-//      //           <td> <a href='#' class="btn btn-danger" onclick='deleteEmployee(${emp.employee.employeeId})'> hapus</a> </td>
-//      //           <td> <a href='#' class="btn btn-info" onclick='showUpdateForm(${emp.employee.employeeId})'> edit</a> </td>
-//      //     </tr>
-//      //   `;
-//      // });
-//    })
-//  }
- 
   function displayEmployees(employeeList) {
     const dataEmployee = document.getElementById("data-emp");
     dataEmployee.innerHTML = ""; // Kosongkan tabel
@@ -99,26 +70,18 @@ function searchEmployee() {
     });
   }
 
-  // async function loadPage() {
-  //   await getEmployee();
-  //   console.log(ListEmployee);  // Sekarang ListEmployee akan terisi dengan data setelah await getEmployee()
-  //   displayEmployees(ListEmployee);
-  // }
+
   
   async function getEmployee() {
     const data = await fetchApi("http://localhost:8081/employee/with-department", "GET");
     console.log(data.content);
     ListEmployee = data.content;  // Memperbarui ListEmployee setelah data diterima
+    filteredListEmployee = ListEmployee; // Memperbarui filteredListEmployee setelah data diterima
   }
 
-// async  function loadPage() {
-//   await getEmployee();
 
-//   console.log(ListEmployee);
-//   displayEmployees(ListEmployee);
-//   }
 
-// let currentEmployeeId = null;
+let currentEmployeeId = null;
 
 showUpdateForm = (id) => {
   currentEmployeeId = id;
@@ -229,11 +192,10 @@ function createEmployee() {
     `http://localhost:8081/employee/create`,
     "POST",
     createdEmployee
-  )
-    .then(() => {
+  ).then(() => {
       alert("Employee created successfully!");
       window.location.reload() = `/PostTestFrontEnd/html/employees.html`
-      document.getElementById("update-employee-form").style.display = "none";
+      // document.getElementById("update-employee-form").style.display = "none";
       // Refresh data employee
     })
 }
@@ -264,6 +226,7 @@ function deleteEmployee(employeeId) {
   })
 }
 
+// get data untuk dropdown Department
 fetchApi("http://localhost:8081/department/get/all", "GET")
   .then((data) => {
     const dataDepartment = document.getElementById("departmentId");
@@ -279,6 +242,7 @@ fetchApi("http://localhost:8081/department/get/all", "GET")
   })
   .catch((error) => console.error(error));
 
+  // get data untuk dropdown Job
   fetchApi("http://localhost:8081/job/get/all", "GET")
   .then((data) => {
     const dataJob = document.getElementById("jobId");
@@ -294,19 +258,21 @@ fetchApi("http://localhost:8081/department/get/all", "GET")
   })
   .catch((error) => console.error(error));
 
-  function logout() {
-    // Menghapus token dari localStorage
-    localStorage.removeItem('token');
 
-    // Menampilkan pesan dan mengarahkan ke halaman login
-    window.location.href = 'login.html'; // Ganti dengan halaman login Anda
-  }
+function logout() {
+  // Menghapus token dari localStorage
+  localStorage.removeItem('token');
 
-  let currentPage = 1;
-const itemsPerPage = 10;
+  // Menampilkan pesan dan mengarahkan ke halaman login
+  window.location.href = 'login.html'; // Ganti dengan halaman login Anda
+}
 
-async function loadPage(pageNumber, list) {
-  await getEmployee();
+
+
+let currentPage = 1;
+const itemsPerPage = 3;
+
+async  function loadPage(pageNumber, list) {
   currentPage = pageNumber;
   const startIndex = (pageNumber - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -317,33 +283,39 @@ async function loadPage(pageNumber, list) {
 }
 
 function updatePaginationControls(pageNumber, totalItems) {
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  document.getElementById("prevButton").disabled = pageNumber === 1;
-  document.getElementById("pageCount").textContent = pageNumber;
-  document.getElementById("nextButton").disabled = pageNumber === totalPages;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+  
+    document.getElementById("prevButton").disabled = pageNumber === 1;
+    document.getElementById("pageCount").textContent = pageNumber;
+    document.getElementById("nextButton").disabled = pageNumber === totalPages;
 }
 
 async function initializeEmployees() {
   try {
-    await loadEmployee();
+    await getEmployee();
 
-    loadPage(1, employees);
+    loadPage(1, ListEmployee);
 
     document
       .getElementById("prevButton")
       .addEventListener("click", () =>
-        loadPage(currentPage - 1, filteredEmployees)
+        loadPage(currentPage - 1, ListEmployee)
       );
     document
       .getElementById("nextButton")
       .addEventListener("click", () =>
-        loadPage(currentPage + 1, filteredEmployees)
+        loadPage(currentPage + 1, ListEmployee)
       );
   } catch (error) {
     console.error("Error fetching employees:", error);
   }
 }
 
-window.addEventListener("load", initializeEmployees);
+document.getElementById("hireDate").max = new Date()
+  .toISOString()
+  .split("T")[0];
+
+window.addEventListener("load", () => {
+  initializeEmployees();
+});
 

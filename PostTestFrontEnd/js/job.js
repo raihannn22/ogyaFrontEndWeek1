@@ -1,4 +1,5 @@
 var listJob = [];
+var FilteredListJob = [];
 
 function fetchApi(url, method = "GET", data = null) {
   const token = localStorage.getItem("token");
@@ -29,17 +30,20 @@ function fetchApi(url, method = "GET", data = null) {
 
 // Contoh penggunaan untuk berbagai metode
 // GET
+async function getJob() {
+  const data = await fetchApi("http://localhost:8081/job/get/all", "GET");
+  listJob = data.content;
+  FilteredListJob = listJob;
+}
 
-fetchApi("http://localhost:8081/job/get/all", "GET")
-  .then((data) => {
-    const dataJob = document.getElementById("data-job");
-    dataJob.innerHTML = "";
 
-    listJob = data.content;
+function displayJobs (jobList) {
+  const dataJob = document.getElementById("data-job");
+  dataJob.innerHTML = "";
 
-    data.content.forEach((job) => {
-      console.log(job);
-      dataJob.innerHTML += `
+  jobList.forEach((job) => {
+
+    dataJob.innerHTML += `
       <tr>
               <td>${job.jobId}</td>
               <td>${job.JOB_TITLE}</td>
@@ -49,9 +53,22 @@ fetchApi("http://localhost:8081/job/get/all", "GET")
               <td> <a href='#' class="btn btn-info" onclick='showUpdateForm(${job.jobId})'> edit</a> </td>
         </tr>
       `;
-    });
-  })
- 
+  });
+}
+
+function searchJob() {
+  const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+
+  // Filter ListEmployee berdasarkan searchTerm
+  const filteredJob = listJob.filter((job) => {
+    return (
+      job.JOB_TITLE.toLowerCase().includes(searchTerm) 
+    );
+  });
+
+  // Tampilkan hasil pencarian di tabel
+  loadPage(1, filteredJob);
+}
 
 
 let currentJobId = null;
@@ -159,4 +176,55 @@ function deleteJob(jobId) {
   })
 }
 
+function logout() {
+  // Menghapus token dari localStorage
+  localStorage.removeItem('token');
 
+  // Menampilkan pesan dan mengarahkan ke halaman login
+  window.location.href = 'login.html'; // Ganti dengan halaman login Anda
+}
+
+
+let currentPage = 1;
+const itemsPerPage = 2;
+
+async  function loadPage(pageNumber, list) {
+  currentPage = pageNumber;
+  const startIndex = (pageNumber - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const employeesForPage = list.slice(startIndex, endIndex);
+
+  displayJobs(employeesForPage);
+  updatePaginationControls(pageNumber, list.length);
+}
+function updatePaginationControls(pageNumber, totalItems) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+  
+    document.getElementById("prevButton").disabled = pageNumber === 1;
+    document.getElementById("pageCount").textContent = pageNumber;
+    document.getElementById("nextButton").disabled = pageNumber === totalPages;
+}
+
+async function initializeDepartment() {
+  try {
+    await getJob();
+    loadPage(1, listJob);
+
+    document
+      .getElementById("prevButton")
+      .addEventListener("click", () =>
+        loadPage(currentPage - 1, listJob)
+      );
+    document
+      .getElementById("nextButton")
+      .addEventListener("click", () =>
+        loadPage(currentPage + 1, listJob)
+      );
+  } catch (error) {
+    console.error("Error fetching employees:", error);
+  }
+}
+
+window.addEventListener("load", () => {
+  initializeDepartment();
+});

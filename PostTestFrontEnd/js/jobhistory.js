@@ -1,6 +1,7 @@
 // import moment from "PostTestFrontEnd/ItemTemplate/moment.js";
 
 var listJh = [];
+var filteredListJh = [];
 
 function fetchApi(url, method = "GET", data = null) {
   const token = localStorage.getItem("token");
@@ -45,28 +46,13 @@ function searchJh() {
 // Contoh penggunaan untuk berbagai metode
 // GET
 
-fetchApi("http://localhost:8081/job-history/with-Employee", "GET")
-  .then((data) => {
-    const dataJh = document.getElementById("data-jh");
-    dataJh.innerHTML = "";
+async function getJh() {
+  const data = await fetchApi("http://localhost:8081/job-history/with-Employee", "GET");
+  listJh = data.content;
+  filteredListJh = listJh;
+}
 
-    listJh = data.content;
 
-    data.content.forEach((Jh) => {
-      console.log(Jh);
-      dataJh.innerHTML += `
-      <tr>
-              <td>${Jh.jobHistory.id}</td>
-              <td>${Jh.jobHistory.changed_date}</td>
-              <td>${Jh.employee.employeeId}</td>
-              <td>${Jh.employee.FIRST_NAME} ${Jh.employee.LAST_NAME}</td>
-              <td>${Jh.jobHistory.job_id_new}</td>
-              <td>${Jh.jobHistory.job_id_old}</td>
-              <td> <a href='#' class="btn btn-danger" onclick='deleteJob(${Jh.id})'> hapus</a> </td>
-        </tr>
-      `;
-    });
-  })
 
   function displayJh(employeeList) {
     const dataJh = document.getElementById("data-jh");
@@ -81,7 +67,7 @@ fetchApi("http://localhost:8081/job-history/with-Employee", "GET")
               <td>${Jh.employee.FIRST_NAME} ${Jh.employee.LAST_NAME}</td>
               <td>${Jh.jobHistory.job_id_new}</td>
               <td>${Jh.jobHistory.job_id_old}</td>
-              <td> <a href='#' class="btn btn-danger" onclick='deleteJob(${Jh.id})'> hapus</a> </td>
+              <td> <a href='#' class="btn btn-danger" onclick='deleteJob(${Jh.jobHistory.id})'> hapus</a> </td>
         </tr>
       `;
     });
@@ -113,4 +99,55 @@ function deleteJob(jobId) {
   })
 }
 
+function logout() {
+  // Menghapus token dari localStorage
+  localStorage.removeItem('token');
 
+  // Menampilkan pesan dan mengarahkan ke halaman login
+  window.location.href = 'login.html'; // Ganti dengan halaman login Anda
+}
+
+
+let currentPage = 1;
+const itemsPerPage = 2;
+
+async  function loadPage(pageNumber, list) {
+  currentPage = pageNumber;
+  const startIndex = (pageNumber - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const employeesForPage = list.slice(startIndex, endIndex);
+
+  displayJh(employeesForPage);
+  updatePaginationControls(pageNumber, list.length);
+}
+function updatePaginationControls(pageNumber, totalItems) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+  
+    document.getElementById("prevButton").disabled = pageNumber === 1;
+    document.getElementById("pageCount").textContent = pageNumber;
+    document.getElementById("nextButton").disabled = pageNumber === totalPages;
+}
+
+async function initializeDepartment() {
+  try {
+    await getJh();
+    loadPage(1, listJh);
+
+    document
+      .getElementById("prevButton")
+      .addEventListener("click", () =>
+        loadPage(currentPage - 1, listJh)
+      );
+    document
+      .getElementById("nextButton")
+      .addEventListener("click", () =>
+        loadPage(currentPage + 1, listJh)
+      );
+  } catch (error) {
+    console.error("Error fetching employees:", error);
+  }
+}
+
+window.addEventListener("load", () => {
+  initializeDepartment();
+});
